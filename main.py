@@ -80,21 +80,31 @@ def ball_movement():
             x_speed *= -1
         if abs(p1.left - ball1.right) < collision_tolerance:
             x_speed *= -1
+
+
+def game_over():
+    font_text = pygame.font.Font('cool2.ttf', 64)
+    text = font_text.render('GAME OVER', True, (0, 0, 0))
+    if ball1.x >= 1000:
+        screen.blit(text, (336, 336))
+    elif ball1.x <= 0:
+        screen.blit(text, (336, 336))
+
 p1 = pygame.Rect(20, 400, 56, 90)
 p2 = pygame.Rect(920, 400, 56, 90)
 ball1 = pygame.Rect(500, 400, 35, 35)
 x_speed, y_speed = 6, 6
 
 # Display running
-running = True
 clock = pygame.time.Clock()
+running = True
 while running:
     clock.tick(FPS)
     screen.fill(RGB)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        
     # Boundaries of P1
     if p1.y <= 0:
         p1.y = 0
@@ -107,7 +117,6 @@ while running:
     elif p2.y >= 710:
         p2.y = 710
 
-
     keys_pressed = pygame.key.get_pressed()
 
     players_movement(p1, p2, keys_pressed)
@@ -115,6 +124,7 @@ while running:
     pallet2_stuff(p2)
     ball_stuff(ball1)
     ball_movement()
+    game_over()
 
     # Update the screen each time..
     pygame.display.update()
